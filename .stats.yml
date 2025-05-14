@@ -1,4 +1,4 @@
-configured_endpoints: 5
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/personal-home%2Fremote-savant-mcp-d583ec830c41e9ad6e6c26e9aa554ac28e34c5340c359b44aea5d1de0619cf15.yml
-openapi_spec_hash: a444975cc094fd57b828cf9b93f0703b
+configured_endpoints: 2
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/personal-home%2Fremote-savant-mcp-e07c887fa9db120e7fe2c016f01498c91b987abd3fd19a34a27e3c20504f0ce1.yml
+openapi_spec_hash: bc343923fa7571667b4340795fc66d60
 config_hash: cf7571fc26c64687c224e8d6be0bfbab

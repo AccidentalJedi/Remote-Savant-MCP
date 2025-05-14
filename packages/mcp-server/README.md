@@ -20,6 +20,8 @@ cd Remote-Savant-MCP
 ```sh
 # set env vars as needed
 export REMOTE_SAVANT_MCP_API_KEY="My API Key"
+export REMOTE_SAVANT_MCP_TIMEOUT="0"
+export REMOTE_SAVANT_MCP_RETRIES="0"
 node ./packages/mcp-server/dist/index.js
 ```
 
@@ -42,7 +44,9 @@ For clients with a configuration JSON, it might look something like this:
       "command": "node",
       "args": ["/path/to/local/Remote-Savant-MCP/packages/mcp-server", "--client=claude", "--tools=all"],
       "env": {
-        "REMOTE_SAVANT_MCP_API_KEY": "My API Key"
+        "REMOTE_SAVANT_MCP_API_KEY": "My API Key",
+        "REMOTE_SAVANT_MCP_TIMEOUT": "0",
+        "REMOTE_SAVANT_MCP_RETRIES": "0"
       }
     }
   }
@@ -148,7 +152,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "remote-savant-mcp-mcp/server";
 
 // import a specific tool
-import checkHealth from "remote-savant-mcp-mcp/tools/health/check-health";
+import checkHealthHealth from "remote-savant-mcp-mcp/tools/health/check-health-health";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -173,7 +177,7 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [checkHealth, myCustomEndpoint] });
+init({ server: myServer, endpoints: [checkHealthHealth, myCustomEndpoint] });
 ```
 
 ## Available Tools
@@ -182,33 +186,33 @@ The following tools are available in this MCP server.
 
 ### Resource `health`:
 
-- `check_health` (`read`): Check the health status of the JrDevMCP server, including binder statuses for local and Gemini LLMs.
+- `check_health_health` (`read`): Check the health status of the JrDevMCP server, including binder statuses for local and Gemini LLMs.
 
 ### Resource `mcp`:
 
-- `process_mcp` (`write`): Processes requests via the Model Context Protocol for integration with VS Code and Augment extension. Supports tools like code implementation, debugging, and self-iteration capabilities with advanced reasoning. Uses local LLM or Gemini Advanced binders based on configuration.
+- `process_task_mcp` (`write`): Processes requests via the Model Context Protocol for integration with VS Code and Augment extension. Supports tools like code implementation, debugging, and self-iteration capabilities with advanced reasoning. Uses local LLM or Gemini Advanced binders based on configuration.
 
 ### Resource `process`:
 
-- `process_direct_process` (`write`): Directly processes tasks for testing purposes, bypassing MCP protocol. Supports the same tools and reasoning capabilities as the MCP endpoint, including self-iteration tools. Uses local LLM or Gemini Advanced binders based on configuration.
+- `process_task_direct_process` (`write`): Directly processes tasks for testing purposes, bypassing MCP protocol. Supports the same tools and reasoning capabilities as the MCP endpoint, including self-iteration tools. Uses local LLM or Gemini Advanced binders based on configuration.
 
 ### Resource `tasks`:
 
-- `retrieve_result_tasks` (`read`): Retrieves the result of a submitted task, including binder statuses for local and Gemini LLMs. Can be linked to a research session for additional context.
-- `submit_heavy_tasks` (`write`): Submits a heavy task that requires Gemini Advanced for processing (e.g., complex API integration). Can be linked to a research session for memory management. Uses Gemini Advanced binder exclusively.
+- `retrieve_task_result_tasks` (`read`): Retrieves the result of a submitted task, including binder statuses for local and Gemini LLMs. Can be linked to a research session for additional context.
+- `submit_heavy_task_tasks` (`write`): Submits a heavy task that requires Gemini Advanced for processing (e.g., complex API integration). Can be linked to a research session for memory management. Uses Gemini Advanced binder exclusively.
 
 ### Resource `research_sessions`:
 
-- `create_research_sessions` (`write`): Creates a new research session for self-iterative tasks, enabling memory management and iterative processing.
-- `retrieve_research_sessions` (`read`): Retrieves the details of a research session, including its memory entries and status.
-- `update_research_sessions` (`write`): Updates the details of a research session, such as its system prompt or current stage.
-- `add_memory_research_sessions` (`write`): Adds a new memory entry to a research session, supporting context maintenance across tasks.
+- `add_memory_entry_research_sessions` (`write`): Adds a new memory entry to a research session, supporting context maintenance across tasks.
+- `create_session_research_sessions` (`write`): Creates a new research session for self-iterative tasks, enabling memory management and iterative processing.
 - `get_memory_thread_research_sessions` (`read`): Retrieves a thread of memory entries starting from a specific entry, following the parent-child relationships.
 - `list_iterative_tasks_research_sessions` (`read`): Lists the status of ongoing iterative tasks in a research session, including binder statuses for local and Gemini LLMs.
-- `search_memory_research_sessions` (`read`): Searches for memory entries in a research session with pagination and filtering options.
+- `retrieve_session_research_sessions` (`read`): Retrieves the details of a research session, including its memory entries and status.
+- `search_memory_entries_research_sessions` (`read`): Searches for memory entries in a research session with pagination and filtering options.
 - `submit_iterative_task_research_sessions` (`write`): Submits a task for iterative processing with self-iteration, using the research session's memory and advanced reasoning capabilities. Uses local LLM or Gemini Advanced binders based on configuration.
+- `update_session_research_sessions` (`write`): Updates the details of a research session, such as its system prompt or current stage.
 
 ### Resource `config`:
 
-- `retrieve_config` (`read`): Get the current configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.
-- `update_config` (`write`): Update the configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.
+- `retrieve_configuration_config` (`read`): Get the current configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.
+- `update_configuration_config` (`write`): Update the configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.

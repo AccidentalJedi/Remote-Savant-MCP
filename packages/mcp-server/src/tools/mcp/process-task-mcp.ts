@@ -5,15 +5,15 @@ import type { Metadata } from '../';
 import RemoteSavantMcp from 'remote-savant-mcp';
 
 export const metadata: Metadata = {
-  resource: 'process',
+  resource: 'mcp',
   operation: 'write',
   tags: [],
 };
 
 export const tool: Tool = {
-  name: 'process_direct_process',
+  name: 'process_task_mcp',
   description:
-    'Directly processes tasks for testing purposes, bypassing MCP protocol. Supports the same tools and reasoning capabilities as the MCP endpoint, including self-iteration tools. Uses local LLM or Gemini Advanced binders based on configuration.',
+    'Processes requests via the Model Context Protocol for integration with VS Code and Augment extension. Supports tools like code implementation, debugging, and self-iteration capabilities with advanced reasoning. Uses local LLM or Gemini Advanced binders based on configuration.',
   inputSchema: {
     type: 'object',
     properties: {
@@ -107,22 +107,7 @@ export const tool: Tool = {
             required: ['content', 'sessionId', 'type'],
           },
           {
-            type: 'object',
-            properties: {
-              sessionId: {
-                type: 'string',
-                description: 'ID of the research session',
-              },
-              task: {
-                type: 'object',
-                description: 'The task to process iteratively',
-              },
-              maxIterations: {
-                type: 'integer',
-                description: 'Maximum number of iterations to perform',
-              },
-            },
-            required: ['sessionId', 'task'],
+            $ref: '#/$defs/submit_iterative_task_parameters',
           },
           {
             type: 'object',
@@ -186,12 +171,32 @@ export const tool: Tool = {
         description: 'Whether to use Gemini API for advanced processing',
       },
     },
+    $defs: {
+      submit_iterative_task_parameters: {
+        type: 'object',
+        properties: {
+          sessionId: {
+            type: 'string',
+            description: 'ID of the research session',
+          },
+          task: {
+            type: 'object',
+            description: 'The task to process iteratively',
+          },
+          maxIterations: {
+            type: 'integer',
+            description: 'Maximum number of iterations to perform',
+          },
+        },
+        required: ['sessionId', 'task'],
+      },
+    },
   },
 };
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.process.processDirect(body);
+  return client.mcp.processTask(body);
 };
 
 export default { metadata, tool, handler };

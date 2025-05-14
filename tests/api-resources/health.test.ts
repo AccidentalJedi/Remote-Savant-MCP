@@ -9,8 +9,8 @@ const client = new RemoteSavantMcp({
 
 describe('resource health', () => {
   // skipped: tests are disabled for the time being
-  test.skip('check', async () => {
-    const responsePromise = client.health.check();
+  test.skip('checkHealth', async () => {
+    const responsePromise = client.health.checkHealth();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

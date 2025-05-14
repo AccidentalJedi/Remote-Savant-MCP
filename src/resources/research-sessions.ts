@@ -7,13 +7,39 @@ import { path } from '../internal/utils/path';
 
 export class ResearchSessions extends APIResource {
   /**
+   * Adds a new memory entry to a research session, supporting context maintenance
+   * across tasks.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.researchSessions.addMemoryEntry(
+   *     'session_123',
+   *     {
+   *       content:
+   *         'Noticed that factorial function lacks input validation',
+   *       body_sessionId: 'session_123',
+   *       type: 'observation',
+   *     },
+   *   );
+   * ```
+   */
+  addMemoryEntry(
+    sessionID: string,
+    body: ResearchSessionAddMemoryEntryParams,
+    options?: RequestOptions,
+  ): APIPromise<ResearchSessionAddMemoryEntryResponse> {
+    return this._client.post(path`/research-sessions/${sessionID}/memory`, { body, ...options });
+  }
+
+  /**
    * Creates a new research session for self-iterative tasks, enabling memory
    * management and iterative processing.
    *
    * @example
    * ```ts
-   * const researchSession =
-   *   await client.researchSessions.create({
+   * const response =
+   *   await client.researchSessions.createSession({
    *     description:
    *       'Research and implement an optimized factorial function',
    *     name: 'Factorial Function Research',
@@ -22,68 +48,11 @@ export class ResearchSessions extends APIResource {
    *   });
    * ```
    */
-  create(
-    body: ResearchSessionCreateParams,
+  createSession(
+    body: ResearchSessionCreateSessionParams,
     options?: RequestOptions,
-  ): APIPromise<ResearchSessionCreateResponse> {
+  ): APIPromise<ResearchSessionCreateSessionResponse> {
     return this._client.post('/research-sessions', { body, ...options });
-  }
-
-  /**
-   * Retrieves the details of a research session, including its memory entries and
-   * status.
-   *
-   * @example
-   * ```ts
-   * const researchSession =
-   *   await client.researchSessions.retrieve('session_123');
-   * ```
-   */
-  retrieve(sessionID: string, options?: RequestOptions): APIPromise<ResearchSession> {
-    return this._client.get(path`/research-sessions/${sessionID}`, options);
-  }
-
-  /**
-   * Updates the details of a research session, such as its system prompt or current
-   * stage.
-   *
-   * @example
-   * ```ts
-   * const researchSession =
-   *   await client.researchSessions.update('session_123');
-   * ```
-   */
-  update(
-    sessionID: string,
-    body: ResearchSessionUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<ResearchSession> {
-    return this._client.put(path`/research-sessions/${sessionID}`, { body, ...options });
-  }
-
-  /**
-   * Adds a new memory entry to a research session, supporting context maintenance
-   * across tasks.
-   *
-   * @example
-   * ```ts
-   * const response = await client.researchSessions.addMemory(
-   *   'session_123',
-   *   {
-   *     content:
-   *       'Noticed that factorial function lacks input validation',
-   *     body_sessionId: 'session_123',
-   *     type: 'observation',
-   *   },
-   * );
-   * ```
-   */
-  addMemory(
-    sessionID: string,
-    body: ResearchSessionAddMemoryParams,
-    options?: RequestOptions,
-  ): APIPromise<ResearchSessionAddMemoryResponse> {
-    return this._client.post(path`/research-sessions/${sessionID}/memory`, { body, ...options });
   }
 
   /**
@@ -129,22 +98,39 @@ export class ResearchSessions extends APIResource {
   }
 
   /**
+   * Retrieves the details of a research session, including its memory entries and
+   * status.
+   *
+   * @example
+   * ```ts
+   * const researchSession =
+   *   await client.researchSessions.retrieveSession(
+   *     'session_123',
+   *   );
+   * ```
+   */
+  retrieveSession(sessionID: string, options?: RequestOptions): APIPromise<ResearchSession> {
+    return this._client.get(path`/research-sessions/${sessionID}`, options);
+  }
+
+  /**
    * Searches for memory entries in a research session with pagination and filtering
    * options.
    *
    * @example
    * ```ts
-   * const response = await client.researchSessions.searchMemory(
-   *   'session_123',
-   *   { query: 'factorial' },
-   * );
+   * const response =
+   *   await client.researchSessions.searchMemoryEntries(
+   *     'session_123',
+   *     { query: 'factorial' },
+   *   );
    * ```
    */
-  searchMemory(
+  searchMemoryEntries(
     sessionID: string,
-    query: ResearchSessionSearchMemoryParams,
+    query: ResearchSessionSearchMemoryEntriesParams,
     options?: RequestOptions,
-  ): APIPromise<ResearchSessionSearchMemoryResponse> {
+  ): APIPromise<ResearchSessionSearchMemoryEntriesResponse> {
     return this._client.get(path`/research-sessions/${sessionID}/memory`, { query, ...options });
   }
 
@@ -171,6 +157,26 @@ export class ResearchSessions extends APIResource {
     options?: RequestOptions,
   ): APIPromise<ResearchSessionSubmitIterativeTaskResponse> {
     return this._client.post(path`/research-sessions/${sessionID}/iterative-tasks`, { body, ...options });
+  }
+
+  /**
+   * Updates the details of a research session, such as its system prompt or current
+   * stage.
+   *
+   * @example
+   * ```ts
+   * const researchSession =
+   *   await client.researchSessions.updateSession(
+   *     'session_123',
+   *   );
+   * ```
+   */
+  updateSession(
+    sessionID: string,
+    body: ResearchSessionUpdateSessionParams,
+    options?: RequestOptions,
+  ): APIPromise<ResearchSession> {
+    return this._client.put(path`/research-sessions/${sessionID}`, { body, ...options });
   }
 }
 
@@ -300,18 +306,35 @@ export interface ResearchSession {
   updatedAt: number;
 }
 
-export interface ResearchSessionCreateResponse {
+export interface SubmitIterativeTaskParameters {
   /**
-   * Unique identifier for the created session
+   * ID of the research session
    */
   sessionId: string;
+
+  /**
+   * The task to process iteratively
+   */
+  task: Record<string, unknown>;
+
+  /**
+   * Maximum number of iterations to perform
+   */
+  maxIterations?: number | null;
 }
 
-export interface ResearchSessionAddMemoryResponse {
+export interface ResearchSessionAddMemoryEntryResponse {
   /**
    * Unique identifier for the created memory entry
    */
   entryId: string;
+}
+
+export interface ResearchSessionCreateSessionResponse {
+  /**
+   * Unique identifier for the created session
+   */
+  sessionId: string;
 }
 
 export interface ResearchSessionGetMemoryThreadResponse {
@@ -322,7 +345,7 @@ export interface ResearchSessionListIterativeTasksResponse {
   tasks: Array<IterativeTaskStatus>;
 }
 
-export interface ResearchSessionSearchMemoryResponse {
+export interface ResearchSessionSearchMemoryEntriesResponse {
   entries: Array<MemoryEntry>;
 
   /**
@@ -358,46 +381,7 @@ export interface ResearchSessionSubmitIterativeTaskResponse {
   localLlmStatus?: 'healthy' | 'unavailable' | 'error' | null;
 }
 
-export interface ResearchSessionCreateParams {
-  /**
-   * Description of the research purpose
-   */
-  description: string;
-
-  /**
-   * Name of the research session
-   */
-  name: string;
-
-  /**
-   * System prompt to use for this research session
-   */
-  systemPrompt: string;
-}
-
-export interface ResearchSessionUpdateParams {
-  /**
-   * Updated stage of the research session
-   */
-  currentStage?: 'initial' | 'exploration' | 'synthesis' | 'refinement' | 'conclusion';
-
-  /**
-   * Updated description of the research purpose
-   */
-  description?: string;
-
-  /**
-   * Updated name of the research session
-   */
-  name?: string;
-
-  /**
-   * Updated system prompt for the session
-   */
-  systemPrompt?: string;
-}
-
-export interface ResearchSessionAddMemoryParams {
+export interface ResearchSessionAddMemoryEntryParams {
   /**
    * Content of the memory entry
    */
@@ -424,6 +408,23 @@ export interface ResearchSessionAddMemoryParams {
   parentId?: string | null;
 }
 
+export interface ResearchSessionCreateSessionParams {
+  /**
+   * Description of the research purpose
+   */
+  description: string;
+
+  /**
+   * Name of the research session
+   */
+  name: string;
+
+  /**
+   * System prompt to use for this research session
+   */
+  systemPrompt: string;
+}
+
 export interface ResearchSessionGetMemoryThreadParams {
   /**
    * ID of the research session
@@ -438,7 +439,7 @@ export interface ResearchSessionListIterativeTasksParams {
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
-export interface ResearchSessionSearchMemoryParams {
+export interface ResearchSessionSearchMemoryEntriesParams {
   /**
    * Search query
    */
@@ -477,23 +478,46 @@ export interface ResearchSessionSubmitIterativeTaskParams {
   maxIterations?: number | null;
 }
 
+export interface ResearchSessionUpdateSessionParams {
+  /**
+   * Updated stage of the research session
+   */
+  currentStage?: 'initial' | 'exploration' | 'synthesis' | 'refinement' | 'conclusion';
+
+  /**
+   * Updated description of the research purpose
+   */
+  description?: string;
+
+  /**
+   * Updated name of the research session
+   */
+  name?: string;
+
+  /**
+   * Updated system prompt for the session
+   */
+  systemPrompt?: string;
+}
+
 export declare namespace ResearchSessions {
   export {
     type IterativeTaskStatus as IterativeTaskStatus,
     type MemoryEntry as MemoryEntry,
     type ResearchSession as ResearchSession,
-    type ResearchSessionCreateResponse as ResearchSessionCreateResponse,
-    type ResearchSessionAddMemoryResponse as ResearchSessionAddMemoryResponse,
+    type SubmitIterativeTaskParameters as SubmitIterativeTaskParameters,
+    type ResearchSessionAddMemoryEntryResponse as ResearchSessionAddMemoryEntryResponse,
+    type ResearchSessionCreateSessionResponse as ResearchSessionCreateSessionResponse,
     type ResearchSessionGetMemoryThreadResponse as ResearchSessionGetMemoryThreadResponse,
     type ResearchSessionListIterativeTasksResponse as ResearchSessionListIterativeTasksResponse,
-    type ResearchSessionSearchMemoryResponse as ResearchSessionSearchMemoryResponse,
+    type ResearchSessionSearchMemoryEntriesResponse as ResearchSessionSearchMemoryEntriesResponse,
     type ResearchSessionSubmitIterativeTaskResponse as ResearchSessionSubmitIterativeTaskResponse,
-    type ResearchSessionCreateParams as ResearchSessionCreateParams,
-    type ResearchSessionUpdateParams as ResearchSessionUpdateParams,
-    type ResearchSessionAddMemoryParams as ResearchSessionAddMemoryParams,
+    type ResearchSessionAddMemoryEntryParams as ResearchSessionAddMemoryEntryParams,
+    type ResearchSessionCreateSessionParams as ResearchSessionCreateSessionParams,
     type ResearchSessionGetMemoryThreadParams as ResearchSessionGetMemoryThreadParams,
     type ResearchSessionListIterativeTasksParams as ResearchSessionListIterativeTasksParams,
-    type ResearchSessionSearchMemoryParams as ResearchSessionSearchMemoryParams,
+    type ResearchSessionSearchMemoryEntriesParams as ResearchSessionSearchMemoryEntriesParams,
     type ResearchSessionSubmitIterativeTaskParams as ResearchSessionSubmitIterativeTaskParams,
+    type ResearchSessionUpdateSessionParams as ResearchSessionUpdateSessionParams,
   };
 }

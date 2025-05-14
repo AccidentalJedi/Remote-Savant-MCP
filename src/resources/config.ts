@@ -11,10 +11,11 @@ export class Config extends APIResource {
    *
    * @example
    * ```ts
-   * const configuration = await client.config.retrieve();
+   * const configuration =
+   *   await client.config.retrieveConfiguration();
    * ```
    */
-  retrieve(options?: RequestOptions): APIPromise<Configuration> {
+  retrieveConfiguration(options?: RequestOptions): APIPromise<Configuration> {
     return this._client.get('/config', options);
   }
 
@@ -24,15 +25,19 @@ export class Config extends APIResource {
    *
    * @example
    * ```ts
-   * const configuration = await client.config.update({
-   *   llmEndpoint: 'http://localhost:11434',
-   *   maxIterationsDefault: 3,
-   *   systemPrompt:
-   *     "You are a Junior Developer AI assistant named 'JrDevMCP,' working as a Model Context Protocol (MCP) server compatible with VS Code and the Augment extension...",
-   * });
+   * const configuration =
+   *   await client.config.updateConfiguration({
+   *     llmEndpoint: 'http://localhost:11434',
+   *     maxIterationsDefault: 3,
+   *     systemPrompt:
+   *       "You are a Junior Developer AI assistant named 'JrDevMCP,' working as a Model Context Protocol (MCP) server compatible with VS Code and the Augment extension...",
+   *   });
    * ```
    */
-  update(body: ConfigUpdateParams, options?: RequestOptions): APIPromise<Configuration> {
+  updateConfiguration(
+    body: ConfigUpdateConfigurationParams,
+    options?: RequestOptions,
+  ): APIPromise<Configuration> {
     return this._client.put('/config', { body, ...options });
   }
 }
@@ -99,7 +104,7 @@ export interface Configuration {
   localLlmTimeout?: number;
 }
 
-export interface ConfigUpdateParams {
+export interface ConfigUpdateConfigurationParams {
   /**
    * Endpoint for the local LLM server (Ollama or LM Studio)
    */
@@ -162,5 +167,8 @@ export interface ConfigUpdateParams {
 }
 
 export declare namespace Config {
-  export { type Configuration as Configuration, type ConfigUpdateParams as ConfigUpdateParams };
+  export {
+    type Configuration as Configuration,
+    type ConfigUpdateConfigurationParams as ConfigUpdateConfigurationParams,
+  };
 }

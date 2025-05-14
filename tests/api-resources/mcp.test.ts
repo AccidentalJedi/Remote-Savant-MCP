@@ -9,8 +9,8 @@ const client = new RemoteSavantMcp({
 
 describe('resource mcp', () => {
   // skipped: tests are disabled for the time being
-  test.skip('process: only required params', async () => {
-    const responsePromise = client.mcp.process({
+  test.skip('processTask: only required params', async () => {
+    const responsePromise = client.mcp.processTask({
       parameters: {
         language: 'Python',
         requirements: 'Write a function to calculate the factorial of a number',
@@ -27,8 +27,8 @@ describe('resource mcp', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('process: required and optional params', async () => {
-    const response = await client.mcp.process({
+  test.skip('processTask: required and optional params', async () => {
+    const response = await client.mcp.processTask({
       parameters: {
         language: 'Python',
         requirements: 'Write a function to calculate the factorial of a number',

@@ -43,7 +43,12 @@ export function init(params: {
 
   const endpointMap = Object.fromEntries(providedEndpoints.map((endpoint) => [endpoint.tool.name, endpoint]));
 
-  const client = params.client || new RemoteSavantMcp({});
+  const client =
+    params.client ||
+    new RemoteSavantMcp({
+      timeout: readEnvOrError('REMOTE_SAVANT_MCP_TIMEOUT'),
+      retries: readEnvOrError('REMOTE_SAVANT_MCP_RETRIES'),
+    });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {

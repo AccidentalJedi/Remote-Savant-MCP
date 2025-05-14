@@ -9,12 +9,12 @@ export class Health extends APIResource {
    * Check the health status of the JrDevMCP server, including binder statuses for
    * local and Gemini LLMs.
    */
-  check(options?: RequestOptions): APIPromise<HealthCheckResponse> {
+  checkHealth(options?: RequestOptions): APIPromise<HealthCheckHealthResponse> {
     return this._client.get('/health', options);
   }
 }
 
-export interface HealthCheckResponse {
+export interface HealthCheckHealthResponse {
   /**
    * Status of the Gemini Advanced binder
    */
@@ -31,5 +31,5 @@ export interface HealthCheckResponse {
 }
 
 export declare namespace Health {
-  export { type HealthCheckResponse as HealthCheckResponse };
+  export { type HealthCheckHealthResponse as HealthCheckHealthResponse };
 }

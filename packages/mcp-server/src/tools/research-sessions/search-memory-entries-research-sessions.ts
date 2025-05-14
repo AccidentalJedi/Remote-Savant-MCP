@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'search_memory_research_sessions',
+  name: 'search_memory_entries_research_sessions',
   description: 'Searches for memory entries in a research session with pagination and filtering options.',
   inputSchema: {
     type: 'object',
@@ -42,7 +42,7 @@ export const tool: Tool = {
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
   const { sessionId, ...body } = args as any;
-  return client.researchSessions.searchMemory(sessionId, body);
+  return client.researchSessions.searchMemoryEntries(sessionId, body);
 };
 
 export default { metadata, tool, handler };

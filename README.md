@@ -30,9 +30,9 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const configuration = await client.config.retrieve();
+  const response = await client.tasks.retrieveResult('task_123');
 
-  console.log(configuration.llmEndpoint);
+  console.log(response.id);
 }
 
 main();
@@ -51,7 +51,7 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const configuration: RemoteSavantMcp.Configuration = await client.config.retrieve();
+  const response: RemoteSavantMcp.TaskRetrieveResultResponse = await client.tasks.retrieveResult('task_123');
 }
 
 main();
@@ -68,7 +68,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const configuration = await client.config.retrieve().catch(async (err) => {
+  const response = await client.tasks.retrieveResult('task_123').catch(async (err) => {
     if (err instanceof RemoteSavantMcp.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -111,7 +111,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Or, configure per-request:
-await client.config.retrieve({
+await client.tasks.retrieveResult('task_123', {
   maxRetries: 5,
 });
 ```
@@ -128,7 +128,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Override per-request:
-await client.config.retrieve({
+await client.tasks.retrieveResult('task_123', {
   timeout: 5 * 1000,
 });
 ```
@@ -151,13 +151,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new RemoteSavantMcp();
 
-const response = await client.config.retrieve().asResponse();
+const response = await client.tasks.retrieveResult('task_123').asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: configuration, response: raw } = await client.config.retrieve().withResponse();
+const { data: response, response: raw } = await client.tasks.retrieveResult('task_123').withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(configuration.llmEndpoint);
+console.log(response.id);
 ```
 
 ### Logging

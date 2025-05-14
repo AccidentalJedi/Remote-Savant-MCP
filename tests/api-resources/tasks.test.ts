@@ -7,10 +7,10 @@ const client = new RemoteSavantMcp({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource config', () => {
+describe('resource tasks', () => {
   // skipped: tests are disabled for the time being
-  test.skip('retrieve', async () => {
-    const responsePromise = client.config.retrieve();
+  test.skip('retrieveResult', async () => {
+    const responsePromise = client.tasks.retrieveResult('task_123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,12 +21,11 @@ describe('resource config', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('update: only required params', async () => {
-    const responsePromise = client.config.update({
-      llmEndpoint: 'http://localhost:11434',
-      maxIterationsDefault: 3,
-      systemPrompt:
-        "You are a Junior Developer AI assistant named 'JrDevMCP,' working as a Model Context Protocol (MCP) server compatible with VS Code and the Augment extension...",
+  test.skip('submitHeavy: only required params', async () => {
+    const responsePromise = client.tasks.submitHeavy({
+      description: 'Integrate with an external API for real-time data processing',
+      geminiModel: 'gemini-advanced',
+      language: 'JavaScript',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -38,21 +37,12 @@ describe('resource config', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('update: required and optional params', async () => {
-    const response = await client.config.update({
-      llmEndpoint: 'http://localhost:11434',
-      maxIterationsDefault: 3,
-      systemPrompt:
-        "You are a Junior Developer AI assistant named 'JrDevMCP,' working as a Model Context Protocol (MCP) server compatible with VS Code and the Augment extension...",
-      geminiApiKey: 'your_gemini_api_key_here',
-      geminiConnectionPoolSize: 5,
+  test.skip('submitHeavy: required and optional params', async () => {
+    const response = await client.tasks.submitHeavy({
+      description: 'Integrate with an external API for real-time data processing',
       geminiModel: 'gemini-advanced',
-      geminiRetries: 3,
-      geminiTimeout: 60,
-      llmModel: 'llama3',
-      localLlmConnectionPoolSize: 5,
-      localLlmRetries: 3,
-      localLlmTimeout: 30,
+      language: 'JavaScript',
+      sessionId: 'session_123',
     });
   });
 });

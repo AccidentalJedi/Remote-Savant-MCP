@@ -148,7 +148,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "remote-savant-mcp-mcp/server";
 
 // import a specific tool
-import retrieveResultTasks from "remote-savant-mcp-mcp/tools/tasks/retrieve-result-tasks";
+import checkHealth from "remote-savant-mcp-mcp/tools/health/check-health";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -173,17 +173,40 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [retrieveResultTasks, myCustomEndpoint] });
+init({ server: myServer, endpoints: [checkHealth, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
 
+### Resource `health`:
+
+- `check_health` (`read`): Check the health status of the JrDevMCP server, including binder statuses for local and Gemini LLMs.
+
+### Resource `mcp`:
+
+- `process_mcp` (`write`): Processes requests via the Model Context Protocol for integration with VS Code and Augment extension. Supports tools like code implementation, debugging, and self-iteration capabilities with advanced reasoning. Uses local LLM or Gemini Advanced binders based on configuration.
+
+### Resource `process`:
+
+- `process_direct_process` (`write`): Directly processes tasks for testing purposes, bypassing MCP protocol. Supports the same tools and reasoning capabilities as the MCP endpoint, including self-iteration tools. Uses local LLM or Gemini Advanced binders based on configuration.
+
 ### Resource `tasks`:
 
 - `retrieve_result_tasks` (`read`): Retrieves the result of a submitted task, including binder statuses for local and Gemini LLMs. Can be linked to a research session for additional context.
 - `submit_heavy_tasks` (`write`): Submits a heavy task that requires Gemini Advanced for processing (e.g., complex API integration). Can be linked to a research session for memory management. Uses Gemini Advanced binder exclusively.
+
+### Resource `research_sessions`:
+
+- `create_research_sessions` (`write`): Creates a new research session for self-iterative tasks, enabling memory management and iterative processing.
+- `retrieve_research_sessions` (`read`): Retrieves the details of a research session, including its memory entries and status.
+- `update_research_sessions` (`write`): Updates the details of a research session, such as its system prompt or current stage.
+- `add_memory_research_sessions` (`write`): Adds a new memory entry to a research session, supporting context maintenance across tasks.
+- `get_memory_thread_research_sessions` (`read`): Retrieves a thread of memory entries starting from a specific entry, following the parent-child relationships.
+- `list_iterative_tasks_research_sessions` (`read`): Lists the status of ongoing iterative tasks in a research session, including binder statuses for local and Gemini LLMs.
+- `search_memory_research_sessions` (`read`): Searches for memory entries in a research session with pagination and filtering options.
+- `submit_iterative_task_research_sessions` (`write`): Submits a task for iterative processing with self-iteration, using the research session's memory and advanced reasoning capabilities. Uses local LLM or Gemini Advanced binders based on configuration.
 
 ### Resource `config`:
 

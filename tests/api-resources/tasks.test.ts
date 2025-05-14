@@ -9,8 +9,8 @@ const client = new RemoteSavantMcp({
 
 describe('resource tasks', () => {
   // skipped: tests are disabled for the time being
-  test.skip('retrieveResult', async () => {
-    const responsePromise = client.tasks.retrieveResult('task_123');
+  test.skip('retrieveTaskResult', async () => {
+    const responsePromise = client.tasks.retrieveTaskResult('task_123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,8 +21,8 @@ describe('resource tasks', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('submitHeavy: only required params', async () => {
-    const responsePromise = client.tasks.submitHeavy({
+  test.skip('submitHeavyTask: only required params', async () => {
+    const responsePromise = client.tasks.submitHeavyTask({
       description: 'Integrate with an external API for real-time data processing',
       geminiModel: 'gemini-advanced',
       language: 'JavaScript',
@@ -37,8 +37,8 @@ describe('resource tasks', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('submitHeavy: required and optional params', async () => {
-    const response = await client.tasks.submitHeavy({
+  test.skip('submitHeavyTask: required and optional params', async () => {
+    const response = await client.tasks.submitHeavyTask({
       description: 'Integrate with an external API for real-time data processing',
       geminiModel: 'gemini-advanced',
       language: 'JavaScript',

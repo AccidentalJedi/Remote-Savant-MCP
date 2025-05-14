@@ -11,38 +11,31 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'update_research_sessions',
-  description: 'Updates the details of a research session, such as its system prompt or current stage.',
+  name: 'create_session_research_sessions',
+  description:
+    'Creates a new research session for self-iterative tasks, enabling memory management and iterative processing.',
   inputSchema: {
     type: 'object',
     properties: {
-      sessionId: {
-        type: 'string',
-      },
-      currentStage: {
-        type: 'string',
-        description: 'Updated stage of the research session',
-        enum: ['initial', 'exploration', 'synthesis', 'refinement', 'conclusion'],
-      },
       description: {
         type: 'string',
-        description: 'Updated description of the research purpose',
+        description: 'Description of the research purpose',
       },
       name: {
         type: 'string',
-        description: 'Updated name of the research session',
+        description: 'Name of the research session',
       },
       systemPrompt: {
         type: 'string',
-        description: 'Updated system prompt for the session',
+        description: 'System prompt to use for this research session',
       },
     },
   },
 };
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
-  const { sessionId, ...body } = args as any;
-  return client.researchSessions.update(sessionId, body);
+  const body = args as any;
+  return client.researchSessions.createSession(body);
 };
 
 export default { metadata, tool, handler };

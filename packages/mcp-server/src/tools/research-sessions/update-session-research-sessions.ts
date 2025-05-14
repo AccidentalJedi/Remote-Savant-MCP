@@ -11,31 +11,30 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'add_memory_research_sessions',
-  description: 'Adds a new memory entry to a research session, supporting context maintenance across tasks.',
+  name: 'update_session_research_sessions',
+  description: 'Updates the details of a research session, such as its system prompt or current stage.',
   inputSchema: {
     type: 'object',
     properties: {
       sessionId: {
         type: 'string',
-        description: 'ID of the research session',
       },
-      content: {
+      currentStage: {
         type: 'string',
-        description: 'Content of the memory entry',
+        description: 'Updated stage of the research session',
+        enum: ['initial', 'exploration', 'synthesis', 'refinement', 'conclusion'],
       },
-      type: {
+      description: {
         type: 'string',
-        description: 'Type of memory entry',
-        enum: ['observation', 'conclusion', 'question', 'task', 'result'],
+        description: 'Updated description of the research purpose',
       },
-      metadata: {
-        type: 'object',
-        description: 'Additional metadata for the entry',
-      },
-      parentId: {
+      name: {
         type: 'string',
-        description: 'ID of the parent entry, if this is part of a thread',
+        description: 'Updated name of the research session',
+      },
+      systemPrompt: {
+        type: 'string',
+        description: 'Updated system prompt for the session',
       },
     },
   },
@@ -43,7 +42,7 @@ export const tool: Tool = {
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
   const { sessionId, ...body } = args as any;
-  return client.researchSessions.addMemory(sessionId, body);
+  return client.researchSessions.updateSession(sessionId, body);
 };
 
 export default { metadata, tool, handler };

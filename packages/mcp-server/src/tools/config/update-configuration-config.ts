@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'update_config',
+  name: 'update_configuration_config',
   description:
     'Update the configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.',
   inputSchema: {
@@ -71,7 +71,7 @@ export const tool: Tool = {
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.config.update(body);
+  return client.config.updateConfiguration(body);
 };
 
 export default { metadata, tool, handler };

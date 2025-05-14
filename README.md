@@ -4,7 +4,7 @@
 
 This library provides convenient access to the Remote Savant Mcp REST API from server-side TypeScript or JavaScript.
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [github.com](https://github.com/AccidentalJedi/Remote-Savant-MCP/wiki). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -30,7 +30,7 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const response = await client.mcp.process({
+  const mcpResponse = await client.mcp.processTask({
     parameters: {
       language: 'Python',
       requirements: 'Write a function to calculate the factorial of a number',
@@ -39,7 +39,7 @@ async function main() {
     tool: 'code_implementation',
   });
 
-  console.log(response.status);
+  console.log(mcpResponse.status);
 }
 
 main();
@@ -58,7 +58,7 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const params: RemoteSavantMcp.McpProcessParams = {
+  const params: RemoteSavantMcp.McpProcessTaskParams = {
     parameters: {
       language: 'Python',
       requirements: 'Write a function to calculate the factorial of a number',
@@ -66,7 +66,7 @@ async function main() {
     },
     tool: 'code_implementation',
   };
-  const response: RemoteSavantMcp.McpProcessResponse = await client.mcp.process(params);
+  const mcpResponse: RemoteSavantMcp.McpResponse = await client.mcp.processTask(params);
 }
 
 main();
@@ -83,8 +83,8 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.mcp
-    .process({
+  const mcpResponse = await client.mcp
+    .processTask({
       parameters: {
         language: 'Python',
         requirements: 'Write a function to calculate the factorial of a number',
@@ -135,7 +135,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Or, configure per-request:
-await client.mcp.process({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
+await client.mcp.processTask({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
   maxRetries: 5,
 });
 ```
@@ -152,7 +152,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Override per-request:
-await client.mcp.process({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
+await client.mcp.processTask({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -176,7 +176,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 const client = new RemoteSavantMcp();
 
 const response = await client.mcp
-  .process({
+  .processTask({
     parameters: {
       language: 'Python',
       requirements: 'Write a function to calculate the factorial of a number',
@@ -188,8 +188,8 @@ const response = await client.mcp
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.mcp
-  .process({
+const { data: mcpResponse, response: raw } = await client.mcp
+  .processTask({
     parameters: {
       language: 'Python',
       requirements: 'Write a function to calculate the factorial of a number',
@@ -199,7 +199,7 @@ const { data: response, response: raw } = await client.mcp
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.status);
+console.log(mcpResponse.status);
 ```
 
 ### Logging

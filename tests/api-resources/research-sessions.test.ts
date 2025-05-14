@@ -9,57 +9,8 @@ const client = new RemoteSavantMcp({
 
 describe('resource researchSessions', () => {
   // skipped: tests are disabled for the time being
-  test.skip('create: only required params', async () => {
-    const responsePromise = client.researchSessions.create({
-      description: 'Research and implement an optimized factorial function',
-      name: 'Factorial Function Research',
-      systemPrompt: 'You are a Junior Developer AI assistant focused on writing optimized code...',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('create: required and optional params', async () => {
-    const response = await client.researchSessions.create({
-      description: 'Research and implement an optimized factorial function',
-      name: 'Factorial Function Research',
-      systemPrompt: 'You are a Junior Developer AI assistant focused on writing optimized code...',
-    });
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('retrieve', async () => {
-    const responsePromise = client.researchSessions.retrieve('session_123');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('update', async () => {
-    const responsePromise = client.researchSessions.update('session_123', {});
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('addMemory: only required params', async () => {
-    const responsePromise = client.researchSessions.addMemory('session_123', {
+  test.skip('addMemoryEntry: only required params', async () => {
+    const responsePromise = client.researchSessions.addMemoryEntry('session_123', {
       content: 'Noticed that factorial function lacks input validation',
       body_sessionId: 'session_123',
       type: 'observation',
@@ -74,13 +25,38 @@ describe('resource researchSessions', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('addMemory: required and optional params', async () => {
-    const response = await client.researchSessions.addMemory('session_123', {
+  test.skip('addMemoryEntry: required and optional params', async () => {
+    const response = await client.researchSessions.addMemoryEntry('session_123', {
       content: 'Noticed that factorial function lacks input validation',
       body_sessionId: 'session_123',
       type: 'observation',
       metadata: { iteration: 'bar' },
       parentId: 'memory_456',
+    });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('createSession: only required params', async () => {
+    const responsePromise = client.researchSessions.createSession({
+      description: 'Research and implement an optimized factorial function',
+      name: 'Factorial Function Research',
+      systemPrompt: 'You are a Junior Developer AI assistant focused on writing optimized code...',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('createSession: required and optional params', async () => {
+    const response = await client.researchSessions.createSession({
+      description: 'Research and implement an optimized factorial function',
+      name: 'Factorial Function Research',
+      systemPrompt: 'You are a Junior Developer AI assistant focused on writing optimized code...',
     });
   });
 
@@ -130,8 +106,8 @@ describe('resource researchSessions', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('searchMemory: only required params', async () => {
-    const responsePromise = client.researchSessions.searchMemory('session_123', { query: 'factorial' });
+  test.skip('retrieveSession', async () => {
+    const responsePromise = client.researchSessions.retrieveSession('session_123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -142,8 +118,22 @@ describe('resource researchSessions', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('searchMemory: required and optional params', async () => {
-    const response = await client.researchSessions.searchMemory('session_123', {
+  test.skip('searchMemoryEntries: only required params', async () => {
+    const responsePromise = client.researchSessions.searchMemoryEntries('session_123', {
+      query: 'factorial',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('searchMemoryEntries: required and optional params', async () => {
+    const response = await client.researchSessions.searchMemoryEntries('session_123', {
       query: 'factorial',
       limit: 10,
       page: 1,
@@ -173,5 +163,17 @@ describe('resource researchSessions', () => {
       task: { language: 'bar', requirements: 'bar' },
       maxIterations: 3,
     });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('updateSession', async () => {
+    const responsePromise = client.researchSessions.updateSession('session_123', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

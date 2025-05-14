@@ -9,8 +9,8 @@ const client = new RemoteSavantMcp({
 
 describe('resource process', () => {
   // skipped: tests are disabled for the time being
-  test.skip('processDirect: only required params', async () => {
-    const responsePromise = client.process.processDirect({
+  test.skip('processTaskDirect: only required params', async () => {
+    const responsePromise = client.process.processTaskDirect({
       parameters: { code: 'function factorial(n) { return n * factorial(n-1); }', language: 'JavaScript' },
       tool: 'code_debugging',
     });
@@ -24,8 +24,8 @@ describe('resource process', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('processDirect: required and optional params', async () => {
-    const response = await client.process.processDirect({
+  test.skip('processTaskDirect: required and optional params', async () => {
+    const response = await client.process.processTaskDirect({
       parameters: {
         code: 'function factorial(n) { return n * factorial(n-1); }',
         language: 'JavaScript',

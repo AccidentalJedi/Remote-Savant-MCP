@@ -5,29 +5,33 @@ import type { Metadata } from '../';
 import RemoteSavantMcp from 'remote-savant-mcp';
 
 export const metadata: Metadata = {
-  resource: 'research_sessions',
+  resource: 'tasks',
   operation: 'write',
   tags: [],
 };
 
 export const tool: Tool = {
-  name: 'create_research_sessions',
+  name: 'submit_heavy_task_tasks',
   description:
-    'Creates a new research session for self-iterative tasks, enabling memory management and iterative processing.',
+    'Submits a heavy task that requires Gemini Advanced for processing (e.g., complex API integration). Can be linked to a research session for memory management. Uses Gemini Advanced binder exclusively.',
   inputSchema: {
     type: 'object',
     properties: {
       description: {
         type: 'string',
-        description: 'Description of the research purpose',
+        description: 'Description of the heavy task',
       },
-      name: {
+      geminiModel: {
         type: 'string',
-        description: 'Name of the research session',
+        description: 'Gemini Advanced model to use for processing',
       },
-      systemPrompt: {
+      language: {
         type: 'string',
-        description: 'System prompt to use for this research session',
+        description: 'Programming language for the task',
+      },
+      sessionId: {
+        type: 'string',
+        description: 'Optional ID of the research session for context',
       },
     },
   },
@@ -35,7 +39,7 @@ export const tool: Tool = {
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.researchSessions.create(body);
+  return client.tasks.submitHeavyTask(body);
 };
 
 export default { metadata, tool, handler };

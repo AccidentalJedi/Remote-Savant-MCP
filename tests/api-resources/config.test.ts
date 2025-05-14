@@ -9,8 +9,8 @@ const client = new RemoteSavantMcp({
 
 describe('resource config', () => {
   // skipped: tests are disabled for the time being
-  test.skip('retrieve', async () => {
-    const responsePromise = client.config.retrieve();
+  test.skip('retrieveConfiguration', async () => {
+    const responsePromise = client.config.retrieveConfiguration();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,8 +21,8 @@ describe('resource config', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('update: only required params', async () => {
-    const responsePromise = client.config.update({
+  test.skip('updateConfiguration: only required params', async () => {
+    const responsePromise = client.config.updateConfiguration({
       llmEndpoint: 'http://localhost:11434',
       maxIterationsDefault: 3,
       systemPrompt:
@@ -38,8 +38,8 @@ describe('resource config', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('update: required and optional params', async () => {
-    const response = await client.config.update({
+  test.skip('updateConfiguration: required and optional params', async () => {
+    const response = await client.config.updateConfiguration({
       llmEndpoint: 'http://localhost:11434',
       maxIterationsDefault: 3,
       systemPrompt:

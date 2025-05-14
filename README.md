@@ -30,16 +30,9 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const response = await client.mcp.process({
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  });
+  const response = await client.tasks.retrieveResult('task_123');
 
-  console.log(response.status);
+  console.log(response.id);
 }
 
 main();
@@ -58,15 +51,7 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const params: RemoteSavantMcp.McpProcessParams = {
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  };
-  const response: RemoteSavantMcp.McpProcessResponse = await client.mcp.process(params);
+  const response: RemoteSavantMcp.TaskRetrieveResultResponse = await client.tasks.retrieveResult('task_123');
 }
 
 main();
@@ -83,24 +68,15 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.mcp
-    .process({
-      parameters: {
-        language: 'Python',
-        requirements: 'Write a function to calculate the factorial of a number',
-        complexity: 'medium',
-      },
-      tool: 'code_implementation',
-    })
-    .catch(async (err) => {
-      if (err instanceof RemoteSavantMcp.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
+  const response = await client.tasks.retrieveResult('task_123').catch(async (err) => {
+    if (err instanceof RemoteSavantMcp.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
 
 main();
@@ -135,7 +111,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Or, configure per-request:
-await client.mcp.process({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
+await client.tasks.retrieveResult('task_123', {
   maxRetries: 5,
 });
 ```
@@ -152,7 +128,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Override per-request:
-await client.mcp.process({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
+await client.tasks.retrieveResult('task_123', {
   timeout: 5 * 1000,
 });
 ```
@@ -175,31 +151,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new RemoteSavantMcp();
 
-const response = await client.mcp
-  .process({
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  })
-  .asResponse();
+const response = await client.tasks.retrieveResult('task_123').asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.mcp
-  .process({
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  })
-  .withResponse();
+const { data: response, response: raw } = await client.tasks.retrieveResult('task_123').withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.status);
+console.log(response.id);
 ```
 
 ### Logging

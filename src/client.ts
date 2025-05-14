@@ -21,28 +21,6 @@ import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { Config, ConfigUpdateParams, Configuration } from './resources/config';
-import { Health, HealthCheckResponse } from './resources/health';
-import { Mcp, McpProcessParams, McpProcessResponse } from './resources/mcp';
-import { Process, ProcessProcessDirectParams, ProcessProcessDirectResponse } from './resources/process';
-import {
-  IterativeTaskStatus,
-  MemoryEntry,
-  ResearchSession,
-  ResearchSessionAddMemoryParams,
-  ResearchSessionAddMemoryResponse,
-  ResearchSessionCreateParams,
-  ResearchSessionCreateResponse,
-  ResearchSessionGetMemoryThreadParams,
-  ResearchSessionGetMemoryThreadResponse,
-  ResearchSessionListIterativeTasksParams,
-  ResearchSessionListIterativeTasksResponse,
-  ResearchSessionSearchMemoryParams,
-  ResearchSessionSearchMemoryResponse,
-  ResearchSessionSubmitIterativeTaskParams,
-  ResearchSessionSubmitIterativeTaskResponse,
-  ResearchSessionUpdateParams,
-  ResearchSessions,
-} from './resources/research-sessions';
 import {
   TaskRetrieveResultResponse,
   TaskSubmitHeavyParams,
@@ -148,7 +126,7 @@ export class RemoteSavantMcp {
    * API Client for interfacing with the Remote Savant Mcp API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['REMOTE_SAVANT_MCP_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['REMOTE_SAVANT_MCP_BASE_URL'] ?? http://localhost:3000] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['REMOTE_SAVANT_MCP_BASE_URL'] ?? http://localhost:8080] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -170,7 +148,7 @@ export class RemoteSavantMcp {
     const options: ClientOptions = {
       apiKey,
       ...opts,
-      baseURL: baseURL || `http://localhost:3000`,
+      baseURL: baseURL || `http://localhost:8080`,
     };
 
     this.baseURL = options.baseURL!;
@@ -719,61 +697,19 @@ export class RemoteSavantMcp {
 
   static toFile = Uploads.toFile;
 
-  health: API.Health = new API.Health(this);
-  mcp: API.Mcp = new API.Mcp(this);
-  process: API.Process = new API.Process(this);
   tasks: API.Tasks = new API.Tasks(this);
-  researchSessions: API.ResearchSessions = new API.ResearchSessions(this);
   config: API.Config = new API.Config(this);
 }
-RemoteSavantMcp.Health = Health;
-RemoteSavantMcp.Mcp = Mcp;
-RemoteSavantMcp.Process = Process;
 RemoteSavantMcp.Tasks = Tasks;
-RemoteSavantMcp.ResearchSessions = ResearchSessions;
 RemoteSavantMcp.Config = Config;
 export declare namespace RemoteSavantMcp {
   export type RequestOptions = Opts.RequestOptions;
-
-  export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
-
-  export {
-    Mcp as Mcp,
-    type McpProcessResponse as McpProcessResponse,
-    type McpProcessParams as McpProcessParams,
-  };
-
-  export {
-    Process as Process,
-    type ProcessProcessDirectResponse as ProcessProcessDirectResponse,
-    type ProcessProcessDirectParams as ProcessProcessDirectParams,
-  };
 
   export {
     Tasks as Tasks,
     type TaskRetrieveResultResponse as TaskRetrieveResultResponse,
     type TaskSubmitHeavyResponse as TaskSubmitHeavyResponse,
     type TaskSubmitHeavyParams as TaskSubmitHeavyParams,
-  };
-
-  export {
-    ResearchSessions as ResearchSessions,
-    type IterativeTaskStatus as IterativeTaskStatus,
-    type MemoryEntry as MemoryEntry,
-    type ResearchSession as ResearchSession,
-    type ResearchSessionCreateResponse as ResearchSessionCreateResponse,
-    type ResearchSessionAddMemoryResponse as ResearchSessionAddMemoryResponse,
-    type ResearchSessionGetMemoryThreadResponse as ResearchSessionGetMemoryThreadResponse,
-    type ResearchSessionListIterativeTasksResponse as ResearchSessionListIterativeTasksResponse,
-    type ResearchSessionSearchMemoryResponse as ResearchSessionSearchMemoryResponse,
-    type ResearchSessionSubmitIterativeTaskResponse as ResearchSessionSubmitIterativeTaskResponse,
-    type ResearchSessionCreateParams as ResearchSessionCreateParams,
-    type ResearchSessionUpdateParams as ResearchSessionUpdateParams,
-    type ResearchSessionAddMemoryParams as ResearchSessionAddMemoryParams,
-    type ResearchSessionGetMemoryThreadParams as ResearchSessionGetMemoryThreadParams,
-    type ResearchSessionListIterativeTasksParams as ResearchSessionListIterativeTasksParams,
-    type ResearchSessionSearchMemoryParams as ResearchSessionSearchMemoryParams,
-    type ResearchSessionSubmitIterativeTaskParams as ResearchSessionSubmitIterativeTaskParams,
   };
 
   export {

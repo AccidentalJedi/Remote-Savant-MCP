@@ -12,12 +12,12 @@ export class Tasks extends APIResource {
    *
    * @example
    * ```ts
-   * const taskResult = await client.tasks.retrieveTaskResult(
+   * const response = await client.tasks.retrieveResult(
    *   'task_123',
    * );
    * ```
    */
-  retrieveTaskResult(taskID: string, options?: RequestOptions): APIPromise<TaskResult> {
+  retrieveResult(taskID: string, options?: RequestOptions): APIPromise<TaskRetrieveResultResponse> {
     return this._client.get(path`/tasks/${taskID}`, options);
   }
 
@@ -28,7 +28,7 @@ export class Tasks extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.tasks.submitHeavyTask({
+   * const response = await client.tasks.submitHeavy({
    *   description:
    *     'Integrate with an external API for real-time data processing',
    *   geminiModel: 'gemini-advanced',
@@ -36,37 +36,12 @@ export class Tasks extends APIResource {
    * });
    * ```
    */
-  submitHeavyTask(
-    body: TaskSubmitHeavyTaskParams,
-    options?: RequestOptions,
-  ): APIPromise<TaskSubmitHeavyTaskResponse> {
+  submitHeavy(body: TaskSubmitHeavyParams, options?: RequestOptions): APIPromise<TaskSubmitHeavyResponse> {
     return this._client.post('/tasks/heavy', { body, ...options });
   }
 }
 
-export interface HeavyTaskRequest {
-  /**
-   * Description of the heavy task
-   */
-  description: string;
-
-  /**
-   * Gemini Advanced model to use for processing
-   */
-  geminiModel: string;
-
-  /**
-   * Programming language for the task
-   */
-  language: string;
-
-  /**
-   * Optional ID of the research session for context
-   */
-  sessionId?: string | null;
-}
-
-export interface TaskResult {
+export interface TaskRetrieveResultResponse {
   /**
    * Task identifier
    */
@@ -103,7 +78,7 @@ export interface TaskResult {
   sessionId?: string | null;
 }
 
-export interface TaskSubmitHeavyTaskResponse {
+export interface TaskSubmitHeavyResponse {
   /**
    * Status of the Gemini Advanced binder during submission
    */
@@ -112,7 +87,7 @@ export interface TaskSubmitHeavyTaskResponse {
   taskId: string;
 }
 
-export interface TaskSubmitHeavyTaskParams {
+export interface TaskSubmitHeavyParams {
   /**
    * Description of the heavy task
    */
@@ -136,9 +111,8 @@ export interface TaskSubmitHeavyTaskParams {
 
 export declare namespace Tasks {
   export {
-    type HeavyTaskRequest as HeavyTaskRequest,
-    type TaskResult as TaskResult,
-    type TaskSubmitHeavyTaskResponse as TaskSubmitHeavyTaskResponse,
-    type TaskSubmitHeavyTaskParams as TaskSubmitHeavyTaskParams,
+    type TaskRetrieveResultResponse as TaskRetrieveResultResponse,
+    type TaskSubmitHeavyResponse as TaskSubmitHeavyResponse,
+    type TaskSubmitHeavyParams as TaskSubmitHeavyParams,
   };
 }

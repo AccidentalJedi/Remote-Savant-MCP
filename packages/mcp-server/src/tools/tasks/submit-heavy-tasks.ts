@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'submit_heavy_task_tasks',
+  name: 'submit_heavy_tasks',
   description:
     'Submits a heavy task that requires Gemini Advanced for processing (e.g., complex API integration). Can be linked to a research session for memory management. Uses Gemini Advanced binder exclusively.',
   inputSchema: {
@@ -39,7 +39,7 @@ export const tool: Tool = {
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return client.tasks.submitHeavyTask(body);
+  return client.tasks.submitHeavy(body);
 };
 
 export default { metadata, tool, handler };

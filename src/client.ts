@@ -20,40 +20,11 @@ import { APIPromise } from './core/api-promise';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
-import { Config, ConfigUpdateConfigurationParams, Configuration } from './resources/config';
-import { Health, HealthCheckHealthResponse } from './resources/health';
-import { Mcp, McpProcessTaskParams, McpRequest, McpResponse } from './resources/mcp';
+import { Config, ConfigUpdateParams, Configuration } from './resources/config';
 import {
-  McpRequest as ProcessAPIMcpRequest,
-  McpResponse as ProcessAPIMcpResponse,
-  Process,
-  ProcessProcessTaskDirectParams,
-} from './resources/process';
-import {
-  IterativeTaskStatus,
-  MemoryEntry,
-  ResearchSession,
-  ResearchSessionAddMemoryEntryParams,
-  ResearchSessionAddMemoryEntryResponse,
-  ResearchSessionCreateSessionParams,
-  ResearchSessionCreateSessionResponse,
-  ResearchSessionGetMemoryThreadParams,
-  ResearchSessionGetMemoryThreadResponse,
-  ResearchSessionListIterativeTasksParams,
-  ResearchSessionListIterativeTasksResponse,
-  ResearchSessionSearchMemoryEntriesParams,
-  ResearchSessionSearchMemoryEntriesResponse,
-  ResearchSessionSubmitIterativeTaskParams,
-  ResearchSessionSubmitIterativeTaskResponse,
-  ResearchSessionUpdateSessionParams,
-  ResearchSessions,
-  SubmitIterativeTaskParameters,
-} from './resources/research-sessions';
-import {
-  HeavyTaskRequest,
-  TaskResult,
-  TaskSubmitHeavyTaskParams,
-  TaskSubmitHeavyTaskResponse,
+  TaskRetrieveResultResponse,
+  TaskSubmitHeavyParams,
+  TaskSubmitHeavyResponse,
   Tasks,
 } from './resources/tasks';
 import { readEnv } from './internal/utils/env';
@@ -65,16 +36,6 @@ export interface ClientOptions {
    * API key for accessing the JrDevMCP API, required for endpoints using Gemini Advanced.
    */
   apiKey?: string | undefined;
-
-  /**
-   * Timeout in seconds for API requests, aligning with binder timeouts.
-   */
-  timeout?: number | undefined;
-
-  /**
-   * Number of retries for API requests, aligning with binder retries.
-   */
-  retries?: number | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -148,8 +109,6 @@ export interface ClientOptions {
  */
 export class RemoteSavantMcp {
   apiKey: string;
-  timeout: number;
-  retries: number;
 
   baseURL: string;
   maxRetries: number;
@@ -167,9 +126,7 @@ export class RemoteSavantMcp {
    * API Client for interfacing with the Remote Savant Mcp API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['REMOTE_SAVANT_MCP_API_KEY'] ?? undefined]
-   * @param {number | undefined} [opts.timeout=60]
-   * @param {number | undefined} [opts.retries=3]
-   * @param {string} [opts.baseURL=process.env['REMOTE_SAVANT_MCP_BASE_URL'] ?? http://localhost:3000] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['REMOTE_SAVANT_MCP_BASE_URL'] ?? http://localhost:8080] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -180,8 +137,6 @@ export class RemoteSavantMcp {
   constructor({
     baseURL = readEnv('REMOTE_SAVANT_MCP_BASE_URL'),
     apiKey = readEnv('REMOTE_SAVANT_MCP_API_KEY'),
-    timeout = 60,
-    retries = 3,
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
@@ -192,10 +147,8 @@ export class RemoteSavantMcp {
 
     const options: ClientOptions = {
       apiKey,
-      timeout,
-      retries,
       ...opts,
-      baseURL: baseURL || `http://localhost:3000`,
+      baseURL: baseURL || `http://localhost:8080`,
     };
 
     this.baseURL = options.baseURL!;
@@ -216,8 +169,6 @@ export class RemoteSavantMcp {
     this._options = options;
 
     this.apiKey = apiKey;
-    this.timeout = timeout;
-    this.retries = retries;
   }
 
   /**
@@ -233,8 +184,6 @@ export class RemoteSavantMcp {
       logLevel: this.logLevel,
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
-      timeout: this.timeout,
-      retries: this.retries,
       ...options,
     });
   }
@@ -748,70 +697,24 @@ export class RemoteSavantMcp {
 
   static toFile = Uploads.toFile;
 
-  health: API.Health = new API.Health(this);
-  mcp: API.Mcp = new API.Mcp(this);
-  process: API.Process = new API.Process(this);
   tasks: API.Tasks = new API.Tasks(this);
-  researchSessions: API.ResearchSessions = new API.ResearchSessions(this);
   config: API.Config = new API.Config(this);
 }
-RemoteSavantMcp.Health = Health;
-RemoteSavantMcp.Mcp = Mcp;
-RemoteSavantMcp.Process = Process;
 RemoteSavantMcp.Tasks = Tasks;
-RemoteSavantMcp.ResearchSessions = ResearchSessions;
 RemoteSavantMcp.Config = Config;
 export declare namespace RemoteSavantMcp {
   export type RequestOptions = Opts.RequestOptions;
 
-  export { Health as Health, type HealthCheckHealthResponse as HealthCheckHealthResponse };
-
-  export {
-    Mcp as Mcp,
-    type McpRequest as McpRequest,
-    type McpResponse as McpResponse,
-    type McpProcessTaskParams as McpProcessTaskParams,
-  };
-
-  export {
-    Process as Process,
-    type ProcessAPIMcpRequest as McpRequest,
-    type ProcessAPIMcpResponse as McpResponse,
-    type ProcessProcessTaskDirectParams as ProcessProcessTaskDirectParams,
-  };
-
   export {
     Tasks as Tasks,
-    type HeavyTaskRequest as HeavyTaskRequest,
-    type TaskResult as TaskResult,
-    type TaskSubmitHeavyTaskResponse as TaskSubmitHeavyTaskResponse,
-    type TaskSubmitHeavyTaskParams as TaskSubmitHeavyTaskParams,
-  };
-
-  export {
-    ResearchSessions as ResearchSessions,
-    type IterativeTaskStatus as IterativeTaskStatus,
-    type MemoryEntry as MemoryEntry,
-    type ResearchSession as ResearchSession,
-    type SubmitIterativeTaskParameters as SubmitIterativeTaskParameters,
-    type ResearchSessionAddMemoryEntryResponse as ResearchSessionAddMemoryEntryResponse,
-    type ResearchSessionCreateSessionResponse as ResearchSessionCreateSessionResponse,
-    type ResearchSessionGetMemoryThreadResponse as ResearchSessionGetMemoryThreadResponse,
-    type ResearchSessionListIterativeTasksResponse as ResearchSessionListIterativeTasksResponse,
-    type ResearchSessionSearchMemoryEntriesResponse as ResearchSessionSearchMemoryEntriesResponse,
-    type ResearchSessionSubmitIterativeTaskResponse as ResearchSessionSubmitIterativeTaskResponse,
-    type ResearchSessionAddMemoryEntryParams as ResearchSessionAddMemoryEntryParams,
-    type ResearchSessionCreateSessionParams as ResearchSessionCreateSessionParams,
-    type ResearchSessionGetMemoryThreadParams as ResearchSessionGetMemoryThreadParams,
-    type ResearchSessionListIterativeTasksParams as ResearchSessionListIterativeTasksParams,
-    type ResearchSessionSearchMemoryEntriesParams as ResearchSessionSearchMemoryEntriesParams,
-    type ResearchSessionSubmitIterativeTaskParams as ResearchSessionSubmitIterativeTaskParams,
-    type ResearchSessionUpdateSessionParams as ResearchSessionUpdateSessionParams,
+    type TaskRetrieveResultResponse as TaskRetrieveResultResponse,
+    type TaskSubmitHeavyResponse as TaskSubmitHeavyResponse,
+    type TaskSubmitHeavyParams as TaskSubmitHeavyParams,
   };
 
   export {
     Config as Config,
     type Configuration as Configuration,
-    type ConfigUpdateConfigurationParams as ConfigUpdateConfigurationParams,
+    type ConfigUpdateParams as ConfigUpdateParams,
   };
 }

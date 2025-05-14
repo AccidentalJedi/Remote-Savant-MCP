@@ -312,13 +312,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['REMOTE_SAVANT_MCP_BASE_URL'] = ''; // empty
       const client = new RemoteSavantMcp({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('http://localhost:3000');
+      expect(client.baseURL).toEqual('http://localhost:8080');
     });
 
     test('blank env variable', () => {
       process.env['REMOTE_SAVANT_MCP_BASE_URL'] = '  '; // blank
       const client = new RemoteSavantMcp({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('http://localhost:3000');
+      expect(client.baseURL).toEqual('http://localhost:8080');
     });
   });
 

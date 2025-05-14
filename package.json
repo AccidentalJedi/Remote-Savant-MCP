@@ -2,7 +2,7 @@
   "name": "remote-savant-mcp",
   "version": "0.1.0-alpha.2",
   "description": "The official TypeScript library for the Remote Savant Mcp API",
-  "author": "Remote Savant Mcp <support@remotesavantmcp.com>",
+  "author": "Remote Savant Mcp <>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",

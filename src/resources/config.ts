@@ -6,8 +6,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Config extends APIResource {
   /**
-   * Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini settings,
-   * self-iteration settings).
+   * Get the current configuration of JrDevMCP, including binder settings for local
+   * LLM (Ollama/LM Studio) and Gemini Advanced.
    *
    * @example
    * ```ts
@@ -19,8 +19,8 @@ export class Config extends APIResource {
   }
 
   /**
-   * Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini
-   * settings, self-iteration settings).
+   * Update the configuration of JrDevMCP, including binder settings for local LLM
+   * (Ollama/LM Studio) and Gemini Advanced.
    *
    * @example
    * ```ts
@@ -59,14 +59,44 @@ export interface Configuration {
   geminiApiKey?: string | null;
 
   /**
+   * Connection pool size for Gemini API binder
+   */
+  geminiConnectionPoolSize?: number;
+
+  /**
    * Gemini model used for advanced processing (if enabled)
    */
   geminiModel?: string | null;
 
   /**
+   * Number of retries for Gemini API binder requests
+   */
+  geminiRetries?: number;
+
+  /**
+   * Timeout in seconds for Gemini API binder requests
+   */
+  geminiTimeout?: number;
+
+  /**
    * Model name for the local LLM server
    */
   llmModel?: string;
+
+  /**
+   * Connection pool size for local LLM binder
+   */
+  localLlmConnectionPoolSize?: number;
+
+  /**
+   * Number of retries for local LLM binder requests
+   */
+  localLlmRetries?: number;
+
+  /**
+   * Timeout in seconds for local LLM binder requests
+   */
+  localLlmTimeout?: number;
 }
 
 export interface ConfigUpdateParams {
@@ -91,14 +121,44 @@ export interface ConfigUpdateParams {
   geminiApiKey?: string | null;
 
   /**
+   * Connection pool size for Gemini API binder
+   */
+  geminiConnectionPoolSize?: number;
+
+  /**
    * Gemini model used for advanced processing (if enabled)
    */
   geminiModel?: string | null;
 
   /**
+   * Number of retries for Gemini API binder requests
+   */
+  geminiRetries?: number;
+
+  /**
+   * Timeout in seconds for Gemini API binder requests
+   */
+  geminiTimeout?: number;
+
+  /**
    * Model name for the local LLM server
    */
   llmModel?: string;
+
+  /**
+   * Connection pool size for local LLM binder
+   */
+  localLlmConnectionPoolSize?: number;
+
+  /**
+   * Number of retries for local LLM binder requests
+   */
+  localLlmRetries?: number;
+
+  /**
+   * Timeout in seconds for local LLM binder requests
+   */
+  localLlmTimeout?: number;
 }
 
 export declare namespace Config {

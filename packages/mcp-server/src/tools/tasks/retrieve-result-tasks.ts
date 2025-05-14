@@ -5,22 +5,19 @@ import type { Metadata } from '../';
 import RemoteSavantMcp from 'remote-savant-mcp';
 
 export const metadata: Metadata = {
-  resource: 'research_sessions',
+  resource: 'tasks',
   operation: 'read',
   tags: [],
 };
 
 export const tool: Tool = {
-  name: 'get_memory_thread_research_sessions',
+  name: 'retrieve_result_tasks',
   description:
-    'Retrieves a thread of memory entries starting from a specific entry, following the parent-child relationships.',
+    'Retrieves the result of a submitted task, including binder statuses for local and Gemini LLMs. Can be linked to a research session for additional context.',
   inputSchema: {
     type: 'object',
     properties: {
-      sessionId: {
-        type: 'string',
-      },
-      entryId: {
+      taskId: {
         type: 'string',
       },
     },
@@ -28,8 +25,8 @@ export const tool: Tool = {
 };
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
-  const { entryId, ...body } = args as any;
-  return client.researchSessions.getMemoryThread(entryId, body);
+  const { taskId, ...body } = args as any;
+  return client.tasks.retrieveResult(taskId);
 };
 
 export default { metadata, tool, handler };

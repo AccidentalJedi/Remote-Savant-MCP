@@ -4,7 +4,7 @@
 
 This library provides convenient access to the Remote Savant Mcp REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [github.com](https://github.com/AccidentalJedi/Remote-Savant-MCP/wiki). The full API of this library can be found in [api.md](api.md).
+The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -30,16 +30,9 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const mcpResponse = await client.mcp.processTask({
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  });
+  const response = await client.tasks.retrieveResult('task_123');
 
-  console.log(mcpResponse.status);
+  console.log(response.id);
 }
 
 main();
@@ -58,15 +51,7 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const params: RemoteSavantMcp.McpProcessTaskParams = {
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  };
-  const mcpResponse: RemoteSavantMcp.McpResponse = await client.mcp.processTask(params);
+  const response: RemoteSavantMcp.TaskRetrieveResultResponse = await client.tasks.retrieveResult('task_123');
 }
 
 main();
@@ -83,24 +68,15 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const mcpResponse = await client.mcp
-    .processTask({
-      parameters: {
-        language: 'Python',
-        requirements: 'Write a function to calculate the factorial of a number',
-        complexity: 'medium',
-      },
-      tool: 'code_implementation',
-    })
-    .catch(async (err) => {
-      if (err instanceof RemoteSavantMcp.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
+  const response = await client.tasks.retrieveResult('task_123').catch(async (err) => {
+    if (err instanceof RemoteSavantMcp.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
 
 main();
@@ -135,7 +111,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Or, configure per-request:
-await client.mcp.processTask({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
+await client.tasks.retrieveResult('task_123', {
   maxRetries: 5,
 });
 ```
@@ -152,7 +128,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Override per-request:
-await client.mcp.processTask({ parameters: { language: 'Python', requirements: 'Write a function to calculate the factorial of a number', complexity: 'medium' }, tool: 'code_implementation' }, {
+await client.tasks.retrieveResult('task_123', {
   timeout: 5 * 1000,
 });
 ```
@@ -175,31 +151,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new RemoteSavantMcp();
 
-const response = await client.mcp
-  .processTask({
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  })
-  .asResponse();
+const response = await client.tasks.retrieveResult('task_123').asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: mcpResponse, response: raw } = await client.mcp
-  .processTask({
-    parameters: {
-      language: 'Python',
-      requirements: 'Write a function to calculate the factorial of a number',
-      complexity: 'medium',
-    },
-    tool: 'code_implementation',
-  })
-  .withResponse();
+const { data: response, response: raw } = await client.tasks.retrieveResult('task_123').withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(mcpResponse.status);
+console.log(response.id);
 ```
 
 ### Logging

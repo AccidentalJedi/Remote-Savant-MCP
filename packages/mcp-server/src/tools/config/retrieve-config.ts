@@ -12,7 +12,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'retrieve_config',
-  description: 'Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini model).',
+  description:
+    'Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini settings, self-iteration settings).',
   inputSchema: {
     type: 'object',
     properties: {},

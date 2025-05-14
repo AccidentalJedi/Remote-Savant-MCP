@@ -148,7 +148,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "remote-savant-mcp-mcp/server";
 
 // import a specific tool
-import retrieveResultTasks from "remote-savant-mcp-mcp/tools/tasks/retrieve-result-tasks";
+import retrieveConfig from "remote-savant-mcp-mcp/tools/config/retrieve-config";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -173,20 +173,14 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [retrieveResultTasks, myCustomEndpoint] });
+init({ server: myServer, endpoints: [retrieveConfig, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
 
-### Resource `tasks`:
-
-- `retrieve_result_tasks` (`read`): Get the status and result of a submitted task.
-- `submit_tasks` (`write`): Submit a coding task to JrDevMCP for processing (e.g., write a function, debug code).
-- `submit_heavy_tasks` (`write`): Submit a heavy task that requires Gemini Advanced for processing (e.g., complex API integration).
-
 ### Resource `config`:
 
-- `retrieve_config` (`read`): Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini model).
-- `update_config` (`write`): Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini model).
+- `retrieve_config` (`read`): Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini settings, self-iteration settings).
+- `update_config` (`write`): Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini settings, self-iteration settings).

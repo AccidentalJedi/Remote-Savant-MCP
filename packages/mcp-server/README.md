@@ -148,7 +148,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "remote-savant-mcp-mcp/server";
 
 // import a specific tool
-import retrieveConfig from "remote-savant-mcp-mcp/tools/config/retrieve-config";
+import retrieveResultTasks from "remote-savant-mcp-mcp/tools/tasks/retrieve-result-tasks";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -173,14 +173,19 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [retrieveConfig, myCustomEndpoint] });
+init({ server: myServer, endpoints: [retrieveResultTasks, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
 
+### Resource `tasks`:
+
+- `retrieve_result_tasks` (`read`): Retrieves the result of a submitted task, including binder statuses for local and Gemini LLMs. Can be linked to a research session for additional context.
+- `submit_heavy_tasks` (`write`): Submits a heavy task that requires Gemini Advanced for processing (e.g., complex API integration). Can be linked to a research session for memory management. Uses Gemini Advanced binder exclusively.
+
 ### Resource `config`:
 
-- `retrieve_config` (`read`): Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini settings, self-iteration settings).
-- `update_config` (`write`): Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini settings, self-iteration settings).
+- `retrieve_config` (`read`): Get the current configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.
+- `update_config` (`write`): Update the configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.

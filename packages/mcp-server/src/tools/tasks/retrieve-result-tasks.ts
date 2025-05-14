@@ -5,23 +5,28 @@ import type { Metadata } from '../';
 import RemoteSavantMcp from 'remote-savant-mcp';
 
 export const metadata: Metadata = {
-  resource: 'config',
+  resource: 'tasks',
   operation: 'read',
   tags: [],
 };
 
 export const tool: Tool = {
-  name: 'retrieve_config',
+  name: 'retrieve_result_tasks',
   description:
-    'Get the current configuration of JrDevMCP, including binder settings for local LLM (Ollama/LM Studio) and Gemini Advanced.',
+    'Retrieves the result of a submitted task, including binder statuses for local and Gemini LLMs. Can be linked to a research session for additional context.',
   inputSchema: {
     type: 'object',
-    properties: {},
+    properties: {
+      taskId: {
+        type: 'string',
+      },
+    },
   },
 };
 
 export const handler = (client: RemoteSavantMcp, args: Record<string, unknown> | undefined) => {
-  return client.config.retrieve();
+  const { taskId, ...body } = args as any;
+  return client.tasks.retrieveResult(taskId);
 };
 
 export default { metadata, tool, handler };

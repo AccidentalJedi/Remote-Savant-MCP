@@ -1,0 +1,73 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import RemoteSavantMcp from 'remote-savant-mcp';
+
+const client = new RemoteSavantMcp({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
+
+describe('resource tasks', () => {
+  // skipped: tests are disabled for the time being
+  test.skip('retrieveResult', async () => {
+    const responsePromise = client.tasks.retrieveResult('task_123');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('submit: only required params', async () => {
+    const responsePromise = client.tasks.submit({
+      description: 'Write a function to calculate the factorial of a number',
+      language: 'Python',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('submit: required and optional params', async () => {
+    const response = await client.tasks.submit({
+      description: 'Write a function to calculate the factorial of a number',
+      language: 'Python',
+      id: 'task_123',
+      codeSnippet: 'def factorial(n):\n    return n * factorial(n-1) if n > 1 else 1',
+    });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('submitHeavy: only required params', async () => {
+    const responsePromise = client.tasks.submitHeavy({
+      description: 'Integrate with an external API for real-time data processing',
+      geminiModel: 'gemini-advanced',
+      language: 'JavaScript',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('submitHeavy: required and optional params', async () => {
+    const response = await client.tasks.submitHeavy({
+      description: 'Integrate with an external API for real-time data processing',
+      geminiModel: 'gemini-advanced',
+      language: 'JavaScript',
+      id: 'heavy_task_456',
+    });
+  });
+});

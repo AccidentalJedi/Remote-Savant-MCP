@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-05-14)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Features
+
+* **api:** update via SDK Studio ([02bf50b](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/02bf50bb9c14e0d3e68f59e4e1c548f6b353f8e5))
+* **api:** update via SDK Studio ([2e4d1c8](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/2e4d1c8f0ab0a95c5bffc6fb2144b7967b8aca04))
+
 ## 0.1.0-alpha.2 (2025-05-14)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)

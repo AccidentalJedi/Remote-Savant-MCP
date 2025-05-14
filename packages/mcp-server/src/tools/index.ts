@@ -1,0 +1,94 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import RemoteSavantMcp from 'remote-savant-mcp';
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+
+import retrieve_result_tasks from './tasks/retrieve-result-tasks';
+import submit_tasks from './tasks/submit-tasks';
+import submit_heavy_tasks from './tasks/submit-heavy-tasks';
+import retrieve_config from './config/retrieve-config';
+import update_config from './config/update-config';
+
+export type HandlerFunction = (
+  client: RemoteSavantMcp,
+  args: Record<string, unknown> | undefined,
+) => Promise<any>;
+
+export type Metadata = {
+  resource: string;
+  operation: 'read' | 'write';
+  tags: string[];
+};
+
+export type Endpoint = {
+  metadata: Metadata;
+  tool: Tool;
+  handler: HandlerFunction;
+};
+
+export const endpoints: Endpoint[] = [];
+
+function addEndpoint(endpoint: Endpoint) {
+  endpoints.push(endpoint);
+}
+
+addEndpoint(retrieve_result_tasks);
+addEndpoint(submit_tasks);
+addEndpoint(submit_heavy_tasks);
+addEndpoint(retrieve_config);
+addEndpoint(update_config);
+
+export type Filter = {
+  type: 'resource' | 'operation' | 'tag' | 'tool';
+  op: 'include' | 'exclude';
+  value: string;
+};
+
+export function query(filters: Filter[], endpoints: Endpoint[]): Endpoint[] {
+  const allExcludes = filters.length > 0 && filters.every((filter) => filter.op === 'exclude');
+  const unmatchedFilters = new Set(filters);
+
+  const filtered = endpoints.filter((endpoint: Endpoint) => {
+    let included = false || allExcludes;
+
+    for (const filter of filters) {
+      if (match(filter, endpoint)) {
+        unmatchedFilters.delete(filter);
+        included = filter.op === 'include';
+      }
+    }
+
+    return included;
+  });
+
+  // Check if any filters didn't match
+  if (unmatchedFilters.size > 0) {
+    throw new Error(
+      `The following filters did not match any endpoints: ${[...unmatchedFilters]
+        .map((f) => `${f.type}=${f.value}`)
+        .join(', ')}`,
+    );
+  }
+
+  return filtered;
+}
+
+function match({ type, value }: Filter, endpoint: Endpoint): boolean {
+  switch (type) {
+    case 'resource': {
+      const regexStr = '^' + normalizeResource(value).replace(/\*/g, '.*') + '$';
+      const regex = new RegExp(regexStr);
+      return regex.test(normalizeResource(endpoint.metadata.resource));
+    }
+    case 'operation':
+      return endpoint.metadata.operation === value;
+    case 'tag':
+      return endpoint.metadata.tags.includes(value);
+    case 'tool':
+      return endpoint.tool.name === value;
+  }
+}
+
+function normalizeResource(resource: string): string {
+  return resource.toLowerCase().replace(/[^a-z.*\-_]*/g, '');
+}

@@ -3,8 +3,19 @@
 import RemoteSavantMcp from 'remote-savant-mcp';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 
+import check_health from './health/check-health';
+import process_mcp from './mcp/process-mcp';
+import process_direct_process from './process/process-direct-process';
 import retrieve_result_tasks from './tasks/retrieve-result-tasks';
 import submit_heavy_tasks from './tasks/submit-heavy-tasks';
+import create_research_sessions from './research-sessions/create-research-sessions';
+import retrieve_research_sessions from './research-sessions/retrieve-research-sessions';
+import update_research_sessions from './research-sessions/update-research-sessions';
+import add_memory_research_sessions from './research-sessions/add-memory-research-sessions';
+import get_memory_thread_research_sessions from './research-sessions/get-memory-thread-research-sessions';
+import list_iterative_tasks_research_sessions from './research-sessions/list-iterative-tasks-research-sessions';
+import search_memory_research_sessions from './research-sessions/search-memory-research-sessions';
+import submit_iterative_task_research_sessions from './research-sessions/submit-iterative-task-research-sessions';
 import retrieve_config from './config/retrieve-config';
 import update_config from './config/update-config';
 
@@ -31,8 +42,19 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
+addEndpoint(check_health);
+addEndpoint(process_mcp);
+addEndpoint(process_direct_process);
 addEndpoint(retrieve_result_tasks);
 addEndpoint(submit_heavy_tasks);
+addEndpoint(create_research_sessions);
+addEndpoint(retrieve_research_sessions);
+addEndpoint(update_research_sessions);
+addEndpoint(add_memory_research_sessions);
+addEndpoint(get_memory_thread_research_sessions);
+addEndpoint(list_iterative_tasks_research_sessions);
+addEndpoint(search_memory_research_sessions);
+addEndpoint(submit_iterative_task_research_sessions);
 addEndpoint(retrieve_config);
 addEndpoint(update_config);
 

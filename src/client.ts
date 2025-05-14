@@ -21,14 +21,7 @@ import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { Config, ConfigUpdateParams, Configuration } from './resources/config';
-import {
-  TaskRetrieveResultResponse,
-  TaskSubmitHeavyParams,
-  TaskSubmitHeavyResponse,
-  TaskSubmitParams,
-  TaskSubmitResponse,
-  Tasks,
-} from './resources/tasks';
+import { Tasks } from './resources/tasks';
 import { readEnv } from './internal/utils/env';
 import { formatRequestDetails, loggerFor } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
@@ -707,14 +700,7 @@ RemoteSavantMcp.Config = Config;
 export declare namespace RemoteSavantMcp {
   export type RequestOptions = Opts.RequestOptions;
 
-  export {
-    Tasks as Tasks,
-    type TaskRetrieveResultResponse as TaskRetrieveResultResponse,
-    type TaskSubmitResponse as TaskSubmitResponse,
-    type TaskSubmitHeavyResponse as TaskSubmitHeavyResponse,
-    type TaskSubmitParams as TaskSubmitParams,
-    type TaskSubmitHeavyParams as TaskSubmitHeavyParams,
-  };
+  export { Tasks as Tasks };
 
   export {
     Config as Config,

@@ -22,7 +22,12 @@ describe('resource config', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('update: only required params', async () => {
-    const responsePromise = client.config.update({ llmEndpoint: 'http://localhost:11434' });
+    const responsePromise = client.config.update({
+      llmEndpoint: 'http://localhost:11434',
+      maxIterationsDefault: 3,
+      systemPrompt:
+        "You are a Junior Developer AI assistant named 'JrDevMCP,' working as a Model Context Protocol (MCP) server compatible with VS Code and the Augment extension...",
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -36,6 +41,10 @@ describe('resource config', () => {
   test.skip('update: required and optional params', async () => {
     const response = await client.config.update({
       llmEndpoint: 'http://localhost:11434',
+      maxIterationsDefault: 3,
+      systemPrompt:
+        "You are a Junior Developer AI assistant named 'JrDevMCP,' working as a Model Context Protocol (MCP) server compatible with VS Code and the Augment extension...",
+      geminiApiKey: 'your_gemini_api_key_here',
       geminiModel: 'gemini-advanced',
       llmModel: 'llama3',
     });

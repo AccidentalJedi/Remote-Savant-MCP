@@ -12,7 +12,8 @@ export const metadata: Metadata = {
 
 export const tool: Tool = {
   name: 'update_config',
-  description: 'Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini model).',
+  description:
+    'Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini settings, self-iteration settings).',
   inputSchema: {
     type: 'object',
     properties: {
@@ -20,9 +21,21 @@ export const tool: Tool = {
         type: 'string',
         description: 'Endpoint for the local LLM server (Ollama or LM Studio)',
       },
+      maxIterationsDefault: {
+        type: 'integer',
+        description: 'Default maximum number of iterations for iterative tasks',
+      },
+      systemPrompt: {
+        type: 'string',
+        description: "System prompt defining the MCP server's behavior",
+      },
+      geminiApiKey: {
+        type: 'string',
+        description: 'API key for Gemini API (if enabled)',
+      },
       geminiModel: {
         type: 'string',
-        description: 'Gemini Advanced model used for heavy tasks',
+        description: 'Gemini model used for advanced processing (if enabled)',
       },
       llmModel: {
         type: 'string',

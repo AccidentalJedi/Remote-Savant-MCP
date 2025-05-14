@@ -6,7 +6,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Config extends APIResource {
   /**
-   * Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini model).
+   * Get the current configuration of JrDevMCP (e.g., LLM endpoint, Gemini settings,
+   * self-iteration settings).
    *
    * @example
    * ```ts
@@ -18,12 +19,16 @@ export class Config extends APIResource {
   }
 
   /**
-   * Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini model).
+   * Update the configuration of JrDevMCP (e.g., change LLM endpoint, Gemini
+   * settings, self-iteration settings).
    *
    * @example
    * ```ts
    * const configuration = await client.config.update({
    *   llmEndpoint: 'http://localhost:11434',
+   *   maxIterationsDefault: 3,
+   *   systemPrompt:
+   *     "You are a Junior Developer AI assistant named 'JrDevMCP,' working as a Model Context Protocol (MCP) server compatible with VS Code and the Augment extension...",
    * });
    * ```
    */
@@ -39,9 +44,24 @@ export interface Configuration {
   llmEndpoint: string;
 
   /**
-   * Gemini Advanced model used for heavy tasks
+   * Default maximum number of iterations for iterative tasks
    */
-  geminiModel?: string;
+  maxIterationsDefault: number;
+
+  /**
+   * System prompt defining the MCP server's behavior
+   */
+  systemPrompt: string;
+
+  /**
+   * API key for Gemini API (if enabled)
+   */
+  geminiApiKey?: string | null;
+
+  /**
+   * Gemini model used for advanced processing (if enabled)
+   */
+  geminiModel?: string | null;
 
   /**
    * Model name for the local LLM server
@@ -56,9 +76,24 @@ export interface ConfigUpdateParams {
   llmEndpoint: string;
 
   /**
-   * Gemini Advanced model used for heavy tasks
+   * Default maximum number of iterations for iterative tasks
    */
-  geminiModel?: string;
+  maxIterationsDefault: number;
+
+  /**
+   * System prompt defining the MCP server's behavior
+   */
+  systemPrompt: string;
+
+  /**
+   * API key for Gemini API (if enabled)
+   */
+  geminiApiKey?: string | null;
+
+  /**
+   * Gemini model used for advanced processing (if enabled)
+   */
+  geminiModel?: string | null;
 
   /**
    * Model name for the local LLM server

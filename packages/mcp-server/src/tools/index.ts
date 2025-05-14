@@ -3,9 +3,6 @@
 import RemoteSavantMcp from 'remote-savant-mcp';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 
-import retrieve_result_tasks from './tasks/retrieve-result-tasks';
-import submit_tasks from './tasks/submit-tasks';
-import submit_heavy_tasks from './tasks/submit-heavy-tasks';
 import retrieve_config from './config/retrieve-config';
 import update_config from './config/update-config';
 
@@ -32,9 +29,6 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
-addEndpoint(retrieve_result_tasks);
-addEndpoint(submit_tasks);
-addEndpoint(submit_heavy_tasks);
 addEndpoint(retrieve_config);
 addEndpoint(update_config);
 

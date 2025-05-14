@@ -30,12 +30,9 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const response = await client.tasks.submit({
-    description: 'Write a function to calculate the factorial of a number',
-    language: 'Python',
-  });
+  const configuration = await client.config.retrieve();
 
-  console.log(response.taskId);
+  console.log(configuration.llmEndpoint);
 }
 
 main();
@@ -54,11 +51,7 @@ const client = new RemoteSavantMcp({
 });
 
 async function main() {
-  const params: RemoteSavantMcp.TaskSubmitParams = {
-    description: 'Write a function to calculate the factorial of a number',
-    language: 'Python',
-  };
-  const response: RemoteSavantMcp.TaskSubmitResponse = await client.tasks.submit(params);
+  const configuration: RemoteSavantMcp.Configuration = await client.config.retrieve();
 }
 
 main();
@@ -75,17 +68,15 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.tasks
-    .submit({ description: 'Write a function to calculate the factorial of a number', language: 'Python' })
-    .catch(async (err) => {
-      if (err instanceof RemoteSavantMcp.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
+  const configuration = await client.config.retrieve().catch(async (err) => {
+    if (err instanceof RemoteSavantMcp.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
 
 main();
@@ -120,7 +111,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Or, configure per-request:
-await client.tasks.submit({ description: 'Write a function to calculate the factorial of a number', language: 'Python' }, {
+await client.config.retrieve({
   maxRetries: 5,
 });
 ```
@@ -137,7 +128,7 @@ const client = new RemoteSavantMcp({
 });
 
 // Override per-request:
-await client.tasks.submit({ description: 'Write a function to calculate the factorial of a number', language: 'Python' }, {
+await client.config.retrieve({
   timeout: 5 * 1000,
 });
 ```
@@ -160,17 +151,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new RemoteSavantMcp();
 
-const response = await client.tasks
-  .submit({ description: 'Write a function to calculate the factorial of a number', language: 'Python' })
-  .asResponse();
+const response = await client.config.retrieve().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.tasks
-  .submit({ description: 'Write a function to calculate the factorial of a number', language: 'Python' })
-  .withResponse();
+const { data: configuration, response: raw } = await client.config.retrieve().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.taskId);
+console.log(configuration.llmEndpoint);
 ```
 
 ### Logging

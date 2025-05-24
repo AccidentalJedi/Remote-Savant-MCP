@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2025-05-24)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Bug Fixes
+
+* **mcp:** fix cursor schema transformation issue with recursive references ([156f2e2](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/156f2e2afebb0c888785918ebc7a8a239a77c5ec))
+
+
+### Chores
+
+* **docs:** grammar improvements ([45a796e](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/45a796ed08558272f7777ad6334453bf99943152))
+* **internal:** codegen related update ([cb3938c](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/cb3938c37eab640edf4d9dfe0e8f6a1aa3c62cba))
+
 ## 0.1.0-alpha.3 (2025-05-14)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)

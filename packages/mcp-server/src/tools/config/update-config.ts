@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   resource: 'config',
   operation: 'write',
   tags: [],
+  httpMethod: 'put',
+  httpPath: '/config',
 };
 
 export const tool: Tool = {

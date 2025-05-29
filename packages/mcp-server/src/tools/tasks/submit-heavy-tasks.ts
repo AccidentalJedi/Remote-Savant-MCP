@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   resource: 'tasks',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/tasks/heavy',
 };
 
 export const tool: Tool = {

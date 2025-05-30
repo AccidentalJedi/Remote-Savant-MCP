@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0-alpha.6 (2025-05-30)
+
+Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
+
+### Features
+
+* **mcp:** include http information in tools ([8903043](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/890304341a8f655a4a97f6ea70156599cad6f38c))
+
+
+### Bug Fixes
+
+* compat with more runtimes ([643d675](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/643d675d957b9050ffb1b98b6670deed39f2c219))
+
+
+### Chores
+
+* improve publish-npm script --latest tag logic ([54ff2a0](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/54ff2a066087c403e271e0d422f523167bf90e72))
+* **mcp:** remove duplicate assignment ([074a1df](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/074a1dfa2fc2d6d512771003213b112eb9dc0c0c))
+
 ## 0.1.0-alpha.5 (2025-05-28)
 
 Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)

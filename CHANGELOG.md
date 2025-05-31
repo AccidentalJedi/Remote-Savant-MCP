@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2025-05-31)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Chores
+
+* **deps:** bump eslint-plugin-prettier ([685fa6b](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/685fa6b2621a2e73a38df1101859687c783ce090))
+* **internal:** update jest config ([1a6d4ea](https://github.com/AccidentalJedi/Remote-Savant-MCP/commit/1a6d4ea0ad3a59d08aaf4adf75241ad4da69ddda))
+
 ## 0.1.0-alpha.6 (2025-05-30)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/AccidentalJedi/Remote-Savant-MCP/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
